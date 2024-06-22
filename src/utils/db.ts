@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
+
 import 'dotenv/config';
 
-export const mongooseConnect = () => {
+export const mongooseConnect = async () => {
   if (mongoose.connection.readyState === 1) {
     return mongoose.connection.asPromise();
   } else {
