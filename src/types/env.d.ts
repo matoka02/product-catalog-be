@@ -6,7 +6,6 @@ declare global {
     interface ProcessEnv {
       MONGODB_URL: string;
       CLIENT_URL: string;
-      PORT: string;
     }
   }
 }
