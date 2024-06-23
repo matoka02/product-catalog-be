@@ -1,8 +1,9 @@
 import { Model, Schema, model, models } from 'mongoose';
 
-import { IProduct } from './product.';
+import { IProduct } from './productModel';
 
 export interface IDescription {
+  _id: string;
   title: string;
   text: string[];
   productId: IProduct;
