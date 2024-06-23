@@ -39,6 +39,22 @@ const getOne = async (req: Request, resp: Response) => {
   };
 };
 
+const getOneByDetails = async (req: Request, resp: Response) => {
+  const color = req.query.color as string;
+  const capacity = req.query.capacity as string;
+  const { id } = req.params;
+
+  try {
+    const products = await productService.getOneByDetails({ id, color, capacity });
+
+    resp.status(200).send(products);
+  } catch (error) {
+    resp.status(500).send({
+      data: null
+    });
+  }
+};
+
 interface ReqQuery {
   query: string;
 }
@@ -92,5 +108,25 @@ const getByType = async (
   }
 };
 
+const getNew = async (_: Request, resp: Response) => {
+  try {
+    const products = await productService.getNew();
 
-export default { getAll, getOne, getFiltered, getRecommended, getByType };
+    resp.status(200).send(products)
+  } catch (error) {
+    resp.status(500).send({
+      data: null
+    });
+  }
+};
+
+
+export default {
+  getAll,
+  getOne,
+  getOneByDetails,
+  getFiltered,
+  getRecommended,
+  getByType,
+  getNew,
+};

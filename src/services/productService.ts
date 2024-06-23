@@ -7,6 +7,12 @@ type Params = {
   sortBy: string;
 }
 
+type Details = {
+  id: string;
+  color: string;
+  capacity: string;
+}
+
 const getAll = async ({ page, perPage, sortBy }: Params) => {
   const offset = perPage * (page - 1);
   const order = sortBy === 'Newest' ? 'desc' : 'asc';
@@ -34,6 +40,43 @@ const getOne = async (productId: string) => {
     .populate('category');
 
   return foundProduct;
+}
+
+const getOneByDetails = async ({ id, color, capacity }: Details) => {
+  const {
+    namespaceId,
+    capacity: oldCapacity,
+    color: oldColor
+  } = await Product.findById(id);
+
+  console.log(color, capacity);
+
+  if (capacity) {
+    const product = await Product.findOne({
+      namespaceId,
+      capacity,
+      color: oldColor,
+    })
+      .populate('category')
+      .populate('description');
+
+    console.log('Capacity', product);
+    return product;
+  }
+
+  if (color) {
+    const product = await Product.findOne({
+      namespaceId,
+      capacity: oldCapacity,
+      color,
+    })
+      .populate('category')
+      .populate('description');
+
+    console.log('Color', product);
+    return product;
+  }
+
 }
 
 const getFiltered = async (query: string) => {
@@ -99,6 +142,22 @@ const getByType = async (type: string) => {
   }
 }
 
+const getNew = async () => {
+  const products = await allProducts()
+    .sort({ createdAt: 'desc' })
+    .limit(8);
+
+  return products;
+}
 
 
-export default { getAll, getOne, getFiltered, getRandom, getByType };
+
+export default {
+  getAll,
+  getOne,
+  getOneByDetails,
+  getFiltered,
+  getRandom,
+  getByType,
+  getNew,
+};
