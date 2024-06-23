@@ -3,7 +3,9 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import { mongooseConnect } from './utils/db';
-import productController from './controllers/productController';
+// import productController from './controllers/productController';
+import productsRouter from './routes/productRoute';
+import { corsOptions } from './utils/corsOptions';
 
 dotenv.config();
 
@@ -12,11 +14,11 @@ export const app = express();
 mongooseConnect();
 
 app.use(cors({ origin: process.env.CLIENT_URL })).use(express.json());
+// app.use(cors(corsOptions)).use(express.json());
 
 app.get('/', async (_, resp) => {
   resp.status(200).send('Hello from Anastasiia')
 });
 
-app.get('/products', productController.getAll);
-app.get('/products/:id', productController.getOne);
+app.use('/products', productsRouter);
 
