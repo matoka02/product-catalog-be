@@ -1,6 +1,7 @@
 import { Model, Schema, model, models } from 'mongoose';
 
 export interface ICategory {
+  _id: string;
   name: string;
 };
 
