@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import { mongooseConnect } from './utils/db';
-// import productController from './controllers/productController';
 import productsRouter from './routes/productRoute';
 import { corsOptions } from './utils/corsOptions';
 
