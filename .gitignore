@@ -3,6 +3,7 @@
 /.idea
 /build
 .env
+*.json
 
 # Default ignored files
 /shelf/
