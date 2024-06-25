@@ -22,20 +22,6 @@ const isQuery = (
   return next('route');
 }
 
-const isType = (
-  req: Request,
-  resp: Response,
-  next: NextFunction
-) => {
-  const { type } = req.query;
-
-  if (type) {
-    return next();
-  }
-
-  return next('route');
-}
-
 const checkPhoneDetails = (
   req: Request,
   resp: Response,
@@ -53,11 +39,10 @@ const checkPhoneDetails = (
 
 router.get('/', productController.getAll);
 router.get('/:id', productController.getOne);
-router.get('/:id', productController.getOneByDetails);
+router.get('/:id', checkPhoneDetails, productController.getOneByDetails);
 router.get('/', isQuery, productController.getFiltered);
 router.get('/:id/recommended', productController.getRecommended);
-router.get('/', isType, productController.getByType);
-router.get('/new', checkPhoneDetails, productController.getNew);
+router.get('/new', productController.getNew);
 router.get('/discount', productController.getDiscount);
 
 export default router;

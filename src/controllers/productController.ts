@@ -4,15 +4,16 @@ import { Request, Response } from 'express';
 
 import productService from '../services/productService';
 
-const DEFAULT_LIMIT = 4;
+const DEFAULT_LIMIT = 8;
 
 const getAll = async (req: Request, resp: Response) => {
   const page = Number(req.query.page) || 1;
   const perPage = Number(req.query.perPage) || DEFAULT_LIMIT;
   const sortBy = String(req.query.sortBy) || 'Newest';
+  const type = String(req.query.type) || '';
 
   try {
-    const data = await productService.getAll({ page, perPage, sortBy });
+    const data = await productService.getAll({ page, perPage, sortBy, type });
 
     resp.status(200).send(data);
   } catch (error) {
@@ -80,29 +81,11 @@ const getFiltered = async (
   }
 };
 
-const getRecommended = async (
-  _: Request,
-  resp: Response,
-) => {
+const getRecommended = async (_: Request, resp: Response) => {
   try {
     const randomProducts = await productService.getRandom(10);
 
     resp.status(200).send(randomProducts);
-  } catch {
-    resp.status(500).send('Error');
-  }
-};
-
-const getByType = async (
-  req: Request,
-  resp: Response,
-) => {
-  const type = req.query.type as string;
-
-  try {
-    const productsByType = await productService.getByType(type);
-
-    resp.status(200).send(productsByType);
   } catch {
     resp.status(500).send('Error');
   }
@@ -139,7 +122,6 @@ export default {
   getOneByDetails,
   getFiltered,
   getRecommended,
-  getByType,
   getNew,
   getDiscount,
 };
