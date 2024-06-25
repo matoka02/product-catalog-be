@@ -1,3 +1,4 @@
+import { Category } from '../models/categoryModel';
 import { Product } from '../models/productModel';
 
 type Params = {
@@ -16,26 +17,20 @@ type Details = {
 const getAll = async ({ page, perPage, sortBy, type }: Params) => {
   const offset = perPage * (page - 1);
   const order = sortBy === 'Newest' ? 'desc' : 'asc';
-  const category = {
-    ...(type !== 'undefined' && {
-      match: {
-        name: type,
-      }
-    }),
-    path: 'category',
-  }
+  const category = await Category.findOne({ name: type });
 
-  const productsCollection = await Product.find()
-    .populate(category)
+  const productsCollection = await Product.find({ category: category._id })
+    .populate('category')
     .populate('description')
     .sort({ updateAt: order, })
     .skip(offset)
     .limit(perPage);
   // const productsCollectionCount = await Product.count();
-  const productsCollectionCount = await Product.countDocuments();
+  const productsCount = await Product.find({ category: category._id })
+    .countDocuments();
 
   const data = {
-    totalProducts: productsCollectionCount,
+    totalProducts: productsCount,
     data: productsCollection,
   };
 
@@ -57,7 +52,7 @@ const getOneByDetails = async ({ id, color, capacity }: Details) => {
     color: oldColor
   } = await Product.findById(id);
 
-  console.log(color, capacity);
+  // console.log(color, capacity);
 
   if (capacity) {
     const product = await Product.findOne({
