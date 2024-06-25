@@ -1,4 +1,3 @@
-import { populate } from 'dotenv';
 import { Product } from '../models/productModel';
 
 type Params = {
@@ -150,7 +149,31 @@ const getNew = async () => {
   return products;
 }
 
+const getDiscount = async () => {
+  const products = await allProducts();
 
+  const sortedProducts = products.sort((a, b) => {
+    const aPriceDiff = a.priceRegular - a.priceDiscount;
+    const bPriceDiff = b.priceRegular - b.priceDiscount;
+
+    return bPriceDiff - aPriceDiff;
+  });
+
+  const uniqueProducts = [];
+  const namespaceIds = new Set();
+
+  for (const product of sortedProducts) {
+    if (!namespaceIds.has(product.namespaceId)) {
+      uniqueProducts.push(product);
+      namespaceIds.add(product.namespaceId);
+    };
+    if (uniqueProducts.length === 8) {
+      break;
+    }
+  }
+
+  return uniqueProducts;
+}
 
 export default {
   getAll,
@@ -160,4 +183,5 @@ export default {
   getRandom,
   getByType,
   getNew,
+  getDiscount,
 };

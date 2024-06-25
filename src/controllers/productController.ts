@@ -120,6 +120,18 @@ const getNew = async (_: Request, resp: Response) => {
   }
 };
 
+const getDiscount = async (_: Request, resp: Response) => {
+  try {
+    const products = await productService.getDiscount();
+
+    resp.status(200).send(products);
+  } catch (error) {
+    resp.status(500).send({
+      data: null
+    });
+  }
+}
+
 
 export default {
   getAll,
@@ -129,4 +141,5 @@ export default {
   getRecommended,
   getByType,
   getNew,
+  getDiscount,
 };

@@ -58,6 +58,7 @@ router.get('/', isQuery, productController.getFiltered);
 router.get('/:id/recommended', productController.getRecommended);
 router.get('/', isType, productController.getByType);
 router.get('/new', checkPhoneDetails, productController.getNew);
+router.get('/discount', productController.getDiscount);
 
 export default router;
 
