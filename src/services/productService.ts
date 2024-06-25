@@ -4,6 +4,7 @@ type Params = {
   page: number;
   perPage: number;
   sortBy: string;
+  type?: string;
 }
 
 type Details = {
@@ -12,12 +13,20 @@ type Details = {
   capacity: string;
 }
 
-const getAll = async ({ page, perPage, sortBy }: Params) => {
+const getAll = async ({ page, perPage, sortBy, type }: Params) => {
   const offset = perPage * (page - 1);
   const order = sortBy === 'Newest' ? 'desc' : 'asc';
+  const category = {
+    ...(type !== 'undefined' && {
+      match: {
+        name: type,
+      }
+    }),
+    path: 'category',
+  }
 
   const productsCollection = await Product.find()
-    .populate('category')
+    .populate(category)
     .populate('description')
     .sort({ updateAt: order, })
     .skip(offset)
@@ -115,32 +124,6 @@ const getRandom = async (limit: number) => {
   return randomProducts;
 }
 
-const getByType = async (type: string) => {
-  switch (type) {
-    case 'phones': {
-      return Product.find()
-        .populate({
-          path: 'category',
-          match: {
-            name: 'phones',
-          },
-        })
-        .populate('description');
-    }
-
-    case 'tablets': {
-      return ['tablets'];
-    }
-
-    case 'accessories': {
-      return ['accessories'];
-    }
-
-    default:
-      return [];
-  }
-}
-
 const getNew = async () => {
   const products = await allProducts()
     .sort({ createdAt: 'desc' })
@@ -181,7 +164,6 @@ export default {
   getOneByDetails,
   getFiltered,
   getRandom,
-  getByType,
   getNew,
   getDiscount,
 };
