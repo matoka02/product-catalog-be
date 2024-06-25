@@ -5,11 +5,12 @@ const whiteList = [
 ];
 
 export const corsOptions = {
-  origin: (origin: string, callback: CorsCallback) => {
-    if (whiteList.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
+  origin: ''
+  //   (origin: string, callback: CorsCallback) => {
+  //   if (whitelist.indexOf(origin) !== -1) {
+  //     callback(null, true);
+  //   } else {
+  //     callback(new Error('Not allowed by CORS'));
+  //   }
+  // },
+};
