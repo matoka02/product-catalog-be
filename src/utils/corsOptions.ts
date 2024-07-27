@@ -1,6 +1,6 @@
 import { CorsCallback } from '../types/CorsCallback';
 
-const whitelist = ['http://localhost:4000', 'https://ghostmatoka.netlify.app'];
+const whitelist = ['http://localhost:3000', 'https://ghostmatoka.netlify.app'];
 
 export const corsOptions = {
   // origin: ''
