@@ -38,12 +38,13 @@ const checkPhoneDetails = (
 
 
 router.get('/', productController.getAll);
-router.get('/:id', productController.getOne);
-router.get('/:id', checkPhoneDetails, productController.getOneByDetails);
 router.get('/', isQuery, productController.getFiltered);
-router.get('/:id/recommended', productController.getRecommended);
 router.get('/new', productController.getNew);
 router.get('/discount', productController.getDiscount);
+router.get('/:id', checkPhoneDetails, productController.getOneByDetails);
+router.get('/:id', productController.getOne);
+router.get('/:id/recommended', productController.getRecommended);
+
 
 export default router;
 
