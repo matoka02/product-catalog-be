@@ -14,6 +14,13 @@ type Details = {
   capacity: string;
 }
 
+
+const allProducts = () => {
+  return Product.find()
+    .populate('category')
+    .populate('description');
+}
+
 const getAll = async ({ page, perPage, sortBy, type }: Params) => {
   const offset = perPage * (page - 1);
   const order = sortBy === 'Newest' ? 'desc' : 'asc';
@@ -92,12 +99,6 @@ const getFiltered = async (query: string) => {
   return products;
 }
 
-const allProducts = () => {
-  return Product.find()
-    .populate('category')
-    .populate('description');
-}
-
 const getRandom = async (limit: number) => {
   const products = await allProducts();
   const randomProducts = [];
@@ -128,7 +129,7 @@ const getNew = async () => {
 }
 
 const getDiscount = async () => {
-  const products = await allProducts();
+  const products = await allProducts();  
 
   const sortedProducts = products.sort((a, b) => {
     const aPriceDiff = a.priceRegular - a.priceDiscount;
@@ -144,14 +145,15 @@ const getDiscount = async () => {
     if (!namespaceIds.has(product.namespaceId)) {
       uniqueProducts.push(product);
       namespaceIds.add(product.namespaceId);
-    };
+    }
+
     if (uniqueProducts.length === 8) {
       break;
     }
   }
 
   return uniqueProducts;
-}
+};
 
 export default {
   getAll,
