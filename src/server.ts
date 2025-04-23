@@ -1,10 +1,10 @@
-import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
+import dotenv from 'dotenv';
+import express from 'express';
 
-import { mongooseConnect } from './utils/db';
 import productsRouter from './routes/productRoute';
 import { corsOptions } from './utils/corsOptions';
+import { mongooseConnect } from './utils/db';
 
 dotenv.config();
 

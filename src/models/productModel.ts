@@ -1,7 +1,7 @@
 import { Model, Schema, model, models } from 'mongoose';
 
-import { Description, IDescription } from './descriptionModel';
 import { Category, ICategory } from './categoryModel';
+import { Description, IDescription } from './descriptionModel';
 
 export interface IProduct {
   _id: string;

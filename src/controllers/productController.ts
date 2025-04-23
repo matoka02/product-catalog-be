@@ -1,12 +1,14 @@
-/* eslint-disable max-len */
-/* eslint-disable no-shadow */
-import { Request, Response } from 'express';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  Request as ExpressRequest,
+  Response as ExpressResponse,
+} from 'express';
 
 import productService from '../services/productService';
 
 const DEFAULT_LIMIT = 8;
 
-const getAll = async (req: Request, resp: Response) => {
+const getAll = async (req: ExpressRequest, resp: ExpressResponse) => {
   const page = Number(req.query.page) || 1;
   const perPage = Number(req.query.perPage) || DEFAULT_LIMIT;
   const sortBy = String(req.query.sortBy) || 'Newest';
@@ -22,7 +24,7 @@ const getAll = async (req: Request, resp: Response) => {
   }
 };
 
-const getOne = async (req: Request, resp: Response) => {
+const getOne = async (req: ExpressRequest, resp: ExpressResponse) => {
   const productId = req.params.id;
 
   try {
@@ -38,7 +40,7 @@ const getOne = async (req: Request, resp: Response) => {
   }
 };
 
-const getOneByDetails = async (req: Request, resp: Response) => {
+const getOneByDetails = async (req: ExpressRequest, resp: ExpressResponse) => {
   const color = req.query.color as string;
   const capacity = req.query.capacity as string;
   const { id } = req.params;
@@ -63,8 +65,8 @@ interface ReqQuery {
 }
 
 const getFiltered = async (
-  req: Request<{}, {}, {}, ReqQuery>,
-  resp: Response,
+  req: ExpressRequest<{}, {}, {}, ReqQuery>,
+  resp: ExpressResponse,
 ) => {
   const { query } = req.query;
 
@@ -83,7 +85,7 @@ const getFiltered = async (
   }
 };
 
-const getRecommended = async (_: Request, resp: Response) => {
+const getRecommended = async (_: ExpressRequest, resp: ExpressResponse) => {
   try {
     const randomProducts = await productService.getRandom(10);
 
@@ -93,7 +95,7 @@ const getRecommended = async (_: Request, resp: Response) => {
   }
 };
 
-const getNew = async (_: Request, resp: Response) => {
+const getNew = async (_: ExpressRequest, resp: ExpressResponse) => {
   try {
     const products = await productService.getNew();
 
@@ -105,7 +107,7 @@ const getNew = async (_: Request, resp: Response) => {
   }
 };
 
-const getDiscount = async (_: Request, resp: Response) => {
+const getDiscount = async (_: ExpressRequest, resp: ExpressResponse) => {
   try {
     const products = await productService.getDiscount();
 

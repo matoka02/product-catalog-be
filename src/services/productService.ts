@@ -69,6 +69,7 @@ const getOneByDetails = async ({ id, color, capacity }: Details) => {
       .populate('description');
 
     console.log('Capacity', product);
+
     return product;
   }
 
@@ -82,6 +83,7 @@ const getOneByDetails = async ({ id, color, capacity }: Details) => {
       .populate('description');
 
     console.log('Color', product);
+
     return product;
   }
 };

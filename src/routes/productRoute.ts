@@ -1,4 +1,8 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, {
+  NextFunction,
+  Request as ExpressRequest,
+  Response as ExpressResponse,
+} from 'express';
 
 import productController from '../controllers/productController';
 
@@ -9,8 +13,8 @@ interface ReqQuery {
 }
 
 const isQuery = (
-  req: Request<{}, {}, {}, ReqQuery>,
-  resp: Response,
+  req: ExpressRequest<{}, {}, {}, ReqQuery>,
+  resp: ExpressResponse,
   next: NextFunction,
 ) => {
   const { query } = req.query;
@@ -23,8 +27,8 @@ const isQuery = (
 };
 
 const checkPhoneDetails = (
-  req: Request,
-  resp: Response,
+  req: ExpressRequest,
+  resp: ExpressResponse,
   next: NextFunction,
 ) => {
   const { color, capacity } = req.query;
