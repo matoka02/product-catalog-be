@@ -19,7 +19,7 @@ const getAll = async (req: Request, resp: Response) => {
   } catch (error) {
     console.error(error);
     resp.status(500).send(error);
-  };
+  }
 };
 
 const getOne = async (req: Request, resp: Response) => {
@@ -33,10 +33,9 @@ const getOne = async (req: Request, resp: Response) => {
     } else {
       resp.status(404).send(`Not found id: ${foundProduct}`);
     }
-
   } catch (error) {
     resp.status(500).send('Error');
-  };
+  }
 };
 
 const getOneByDetails = async (req: Request, resp: Response) => {
@@ -45,12 +44,16 @@ const getOneByDetails = async (req: Request, resp: Response) => {
   const { id } = req.params;
 
   try {
-    const products = await productService.getOneByDetails({ id, color, capacity });
+    const products = await productService.getOneByDetails({
+      id,
+      color,
+      capacity,
+    });
 
     resp.status(200).send(products);
   } catch (error) {
     resp.status(500).send({
-      data: null
+      data: null,
     });
   }
 };
@@ -94,10 +97,10 @@ const getNew = async (_: Request, resp: Response) => {
   try {
     const products = await productService.getNew();
 
-    resp.status(200).send(products)
+    resp.status(200).send(products);
   } catch (error) {
     resp.status(500).send({
-      data: null
+      data: null,
     });
   }
 };
@@ -109,11 +112,10 @@ const getDiscount = async (_: Request, resp: Response) => {
     resp.status(200).send(products);
   } catch (error) {
     resp.status(500).send({
-      data: null
+      data: null,
     });
   }
-}
-
+};
 
 export default {
   getAll,

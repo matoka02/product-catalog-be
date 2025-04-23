@@ -24,7 +24,7 @@ export interface IProduct {
   cell?: string[];
   description: IDescription[];
   category: ICategory;
-};
+}
 
 const ProductSchema = new Schema<IProduct>(
   {
@@ -48,7 +48,8 @@ const ProductSchema = new Schema<IProduct>(
     description: [{ type: Schema.Types.ObjectId, ref: Description }],
     category: { type: Schema.Types.ObjectId, ref: Category },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export const Product: Model<IProduct> = models?.Product || model('Product', ProductSchema);
+export const Product: Model<IProduct> =
+  models?.Product || model('Product', ProductSchema);

@@ -11,7 +11,7 @@ interface ReqQuery {
 const isQuery = (
   req: Request<{}, {}, {}, ReqQuery>,
   resp: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const { query } = req.query;
 
@@ -20,12 +20,12 @@ const isQuery = (
   }
 
   return next('route');
-}
+};
 
 const checkPhoneDetails = (
   req: Request,
   resp: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const { color, capacity } = req.query;
 
@@ -34,8 +34,7 @@ const checkPhoneDetails = (
   }
 
   return next('route');
-}
-
+};
 
 router.get('/', productController.getAll);
 router.get('/', isQuery, productController.getFiltered);
@@ -45,6 +44,4 @@ router.get('/:id', checkPhoneDetails, productController.getOneByDetails);
 router.get('/:id', productController.getOne);
 router.get('/:id/recommended', productController.getRecommended);
 
-
 export default router;
-
