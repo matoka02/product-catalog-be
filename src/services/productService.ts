@@ -6,20 +6,17 @@ type Params = {
   perPage: number;
   sortBy: string;
   type?: string;
-}
+};
 
 type Details = {
   id: string;
   color: string;
   capacity: string;
-}
-
+};
 
 const allProducts = () => {
-  return Product.find()
-    .populate('category')
-    .populate('description');
-}
+  return Product.find().populate('category').populate('description');
+};
 
 const getAll = async ({ page, perPage, sortBy, type }: Params) => {
   const offset = perPage * (page - 1);
@@ -29,12 +26,13 @@ const getAll = async ({ page, perPage, sortBy, type }: Params) => {
   const productsCollection = await Product.find({ category: category._id })
     .populate('category')
     .populate('description')
-    .sort({ updateAt: order, })
+    .sort({ updateAt: order })
     .skip(offset)
     .limit(perPage);
   // const productsCollectionCount = await Product.count();
-  const productsCount = await Product.find({ category: category._id })
-    .countDocuments();
+  const productsCount = await Product.find({
+    category: category._id,
+  }).countDocuments();
 
   const data = {
     totalProducts: productsCount,
@@ -42,7 +40,7 @@ const getAll = async ({ page, perPage, sortBy, type }: Params) => {
   };
 
   return data;
-}
+};
 
 const getOne = async (productId: string) => {
   const foundProduct = await Product.findById(productId)
@@ -50,13 +48,13 @@ const getOne = async (productId: string) => {
     .populate('category');
 
   return foundProduct;
-}
+};
 
 const getOneByDetails = async ({ id, color, capacity }: Details) => {
   const {
     namespaceId,
     capacity: oldCapacity,
-    color: oldColor
+    color: oldColor,
   } = await Product.findById(id);
 
   // console.log(color, capacity);
@@ -71,6 +69,7 @@ const getOneByDetails = async ({ id, color, capacity }: Details) => {
       .populate('description');
 
     console.log('Capacity', product);
+
     return product;
   }
 
@@ -84,20 +83,20 @@ const getOneByDetails = async ({ id, color, capacity }: Details) => {
       .populate('description');
 
     console.log('Color', product);
+
     return product;
   }
-
-}
+};
 
 const getFiltered = async (query: string) => {
   const products = await Product.find({
-    name: { $regex: query, $options: 'i' }
+    name: { $regex: query, $options: 'i' },
   })
     .populate('category')
     .populate('description');
 
   return products;
-}
+};
 
 const getRandom = async (limit: number) => {
   const products = await allProducts();
@@ -115,21 +114,19 @@ const getRandom = async (limit: number) => {
       i++;
       randomProducts.push(products[randomIndex]);
     }
-  };
+  }
 
   return randomProducts;
-}
+};
 
 const getNew = async () => {
-  const products = await allProducts()
-    .sort({ createdAt: 'desc' })
-    .limit(8);
+  const products = await allProducts().sort({ createdAt: 'desc' }).limit(8);
 
   return products;
-}
+};
 
 const getDiscount = async () => {
-  const products = await allProducts();  
+  const products = await allProducts();
 
   const sortedProducts = products.sort((a, b) => {
     const aPriceDiff = a.priceRegular - a.priceDiscount;
