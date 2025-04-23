@@ -3,7 +3,7 @@
     "es2021": true,
     "node": true
   },
-  "extends": "@mate-academy/eslint-config",
+  "extends": ["@mate-academy/eslint-config", "plugin:prettier/recommended"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -14,15 +14,8 @@
   ],
   "rules": {
     "no-console": "off",
-    "no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
     "operator-linebreak": "off",
     "space-before-function-paren": "off"
-  },
-  "prettier/prettier": [
-    "error",
-    {},
-    {
-      "usePrettierrc": false
-    }
-  ]
+  }
 }
